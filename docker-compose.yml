@@ -1,0 +1,27 @@
+# VERSION YML
+version: "3"
+
+# SERVICIOS (IMAGENES / CONTENEDORES)
+services:
+    web:
+        container_name: exampleapp
+        # EN CASO DE ERROR, REINICIAR
+        restart: always
+        # CONSTRUIR A PARTIR DEL ARCHIVO ACTUAL
+        build: .
+        ports:
+            - "5000:3000"
+        # CONTECTAR CONTENEDOR CON EL DE ABAJO
+        links:
+            - mongo
+        # COPIAR CUANDO HAYA CAMBIOS AL CONTENEDOR.
+        volumes:
+            - .:/usr/src/app
+    mongo:
+        container_name: mymongodatabase
+        # EN QUE IMAGEN VA A ESTAR BASADA
+        image: mongo
+        ports:
+            - "27018:27017"
+        logging:
+          driver: none
